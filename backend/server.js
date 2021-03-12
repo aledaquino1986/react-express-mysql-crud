@@ -70,6 +70,36 @@ app.post("/api/create", (req, res) => {
   );
 });
 
+app.put("/api/update", (req, res) => {
+  const id = req.body.id;
+  const country = req.body.country;
+
+  db.query(
+    "UPDATE employees SET country = ? where id = ?",
+    [country, id],
+    (err, result) => {
+      if (err) {
+        console.log(err);
+      } else {
+        res.send(result);
+      }
+    }
+  );
+});
+
+app.delete("/api/delete/:id", (req, res) => {
+  console.log(req.params);
+  const id = req.params.id;
+
+  db.query("DELETE FROM employees WHERE id = ?", id, (err, result) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.send(result);
+    }
+  });
+});
+
 const port = process.env.APP_PORT;
 
 app.listen(5000, () => {
